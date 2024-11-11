@@ -29,4 +29,6 @@ curl "$BASE_URL/member/congress/$congress_number?$QUERY&limit=$PAGE_SIZE" -H "ac
 echo "Processing XML data -> congress_data.xml"
 java net.sf.saxon.Query extract_congress_data.xq > congress_data.xml
 
-echo "TODO: output html"
+# Generate HTML
+echo "Generating HTML -> congress_page.html"
+java net.sf.saxon.Transform congress_data.xml generate_html.xsl > congress_page.html
