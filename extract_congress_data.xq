@@ -1,7 +1,16 @@
+let $error := doc("congress_info.xml")//error
+return
+if ($error) then
+<data xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="congress_data.xsd">
+  <error>{fn:normalize-space($error)}</error>
+</data>
+else
+
 let $congress := doc("congress_info.xml")//congress
 let $members := doc("congress_members_info.xml")//members
 
-return <data xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="congress_data.xsd">
+return
+<data xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="congress_data.xsd">
   <congress>
     <name number="{fn:normalize-space($congress/number)}">
       {fn:normalize-space($congress/name)}
@@ -18,13 +27,15 @@ return <data xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespa
       {
         for $chamber in fn:distinct-values($congress//chamber)
         let $name := fn:normalize-space($chamber)
-        return <chamber>
+        return
+        <chamber>
           <name>{$name}</name>
           <members>
             {
               for $member in $members/member[.//fn:normalize-space(chamber) = $name]
               for $term in $member//item[./fn:normalize-space(chamber) = $name]
-              return <member bioguideId="{fn:normalize-space($member/bioguideId)}">
+              return
+              <member bioguideId="{fn:normalize-space($member/bioguideId)}">
                 <name>{fn:normalize-space($member/name)}</name>
                 <state>{fn:normalize-space($member/state)}</state>
                 <party>{fn:normalize-space($member/partyName)}</party>
@@ -39,7 +50,8 @@ return <data xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespa
           <sessions>
             {
               for $session in $congress/sessions/item[./chamber = $chamber]
-              return <session>
+              return
+              <session>
                 <number>{fn:normalize-space($session/number)}</number>
                 <period 
                   from="{fn:normalize-space($session/startDate)}"
