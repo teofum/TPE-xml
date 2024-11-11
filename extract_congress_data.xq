@@ -23,7 +23,7 @@ return <data xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespa
           <members>
             {
               for $member in $members/member[.//fn:normalize-space(chamber) = $name]
-              let $term := $member//item[./fn:normalize-space(chamber) = $name][last()]
+              for $term in $member//item[./fn:normalize-space(chamber) = $name]
               return <member bioguideId="{fn:normalize-space($member/bioguideId)}">
                 <name>{fn:normalize-space($member/name)}</name>
                 <state>{fn:normalize-space($member/state)}</state>
